@@ -1,0 +1,17 @@
+.message-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.author {
+  color: var(--vkui--color_text_link);
+  padding: 8px;
+}
+
+.message {
+  color: var(--vkui--color_text_primary);
+  padding: 4px 8px;
+}
