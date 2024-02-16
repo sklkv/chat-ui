@@ -9,6 +9,10 @@ export const FORM_SCHEME: IFormScheme[] = [
       top: "Имя",
       bottomId: "username-type",
     },
+    componentProps: {},
+    registerOptions: {
+      required: true,
+    },
     Component: Input,
   },
   {
@@ -20,6 +24,10 @@ export const FORM_SCHEME: IFormScheme[] = [
     },
     componentProps: {
       type: "tel",
+    },
+    registerOptions: {
+      required: true,
+      pattern: /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/,
     },
     Component: Input,
   },
@@ -33,6 +41,13 @@ export const FORM_SCHEME: IFormScheme[] = [
     componentProps: {
       type: "email",
     },
+    registerOptions: {
+      required: true,
+      pattern: {
+        value: /^\S+@\S+$/i,
+        message: "Неверный формат",
+      },
+    },
     Component: Input,
   },
   {
@@ -45,6 +60,17 @@ export const FORM_SCHEME: IFormScheme[] = [
     componentProps: {
       type: "password",
     },
+    registerOptions: {
+      required: true,
+      minLength: {
+        value: 8,
+        message: "Пароль должен содержать от 8 до 16 символов",
+      },
+      maxLength: {
+        value: 16,
+        message: "Пароль должен содержать от 8 до 16 символов",
+      },
+    },
     Component: Input,
   },
   {
@@ -56,6 +82,15 @@ export const FORM_SCHEME: IFormScheme[] = [
     },
     componentProps: {
       type: "password",
+    },
+    registerOptions: {
+      required: true,
+      validate: (value, { password }) => {
+        if (value !== password) {
+          return "Подтверждение пароля не совпадает с паролем";
+        }
+        return true;
+      },
     },
     Component: Input,
   },

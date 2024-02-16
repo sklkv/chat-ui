@@ -1,4 +1,5 @@
 import { ElementType } from "react";
+import { RegisterOptions } from "react-hook-form";
 import { FormItemProps } from "@vkontakte/vkui";
 
 export interface IFormFields {
@@ -11,6 +12,7 @@ export interface IFormFields {
 
 export interface IFormScheme {
   name: keyof IFormFields;
+  registerOptions: RegisterOptions;
   formItemProps: FormItemProps;
   componentProps?: Record<string, string | boolean>;
   Component: ElementType;

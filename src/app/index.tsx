@@ -9,7 +9,7 @@ import {
   Panel,
 } from "@vkontakte/vkui";
 import "@vkontakte/vkui/dist/vkui.css";
-// import { Signup } from "@pages/signup";
+import { Signup } from "@pages/signup";
 import { Signin } from "@pages/signin";
 import { Chat } from "@pages/chat";
 import { WsProvider } from "@shared/ui";
@@ -40,8 +40,8 @@ export default function App() {
                       onNicknameChange={onNicknameChange}
                       // onSubmit={onSubmit}
                     /> */}
-                    <Signin />
-                    {/* <Signup /> */}
+                    {/* <Signin /> */}
+                    <Signup />
                   </Panel>
                   <Panel id="chat">
                     <Chat nickname={nickname} />

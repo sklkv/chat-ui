@@ -8,13 +8,27 @@ export const FormField: FC<IFormFieldProps> = ({
   name,
   children,
   formItemProps,
+  registerOptions,
 }) => {
-  const { register } = useFormContext();
+  const { register, getFieldState } = useFormContext();
 
   const WrappedElement = isValidElement(children)
-    ? // @ts-ignore
-      cloneElement(children, { ...register(name), getRef: register(name).ref })
+    ? cloneElement(children, {
+        ...register(name, registerOptions),
+        // @ts-ignore
+        getRef: register(name).ref,
+      })
     : null;
 
-  return <FormItem {...formItemProps}>{WrappedElement}</FormItem>;
+  const { error, invalid } = getFieldState(name);
+
+  return (
+    <FormItem
+      {...formItemProps}
+      bottom={invalid ? error?.message : null}
+      status={invalid ? "error" : "default"}
+    >
+      {WrappedElement}
+    </FormItem>
+  );
 };

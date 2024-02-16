@@ -9,6 +9,9 @@ export const FORM_SCHEME: IFormScheme[] = [
       top: "Имя",
       bottomId: "username-type",
     },
+    registerOptions: {
+      required: true,
+    },
     Component: Input,
   },
   {
@@ -20,6 +23,9 @@ export const FORM_SCHEME: IFormScheme[] = [
     },
     componentProps: {
       type: "password",
+    },
+    registerOptions: {
+      required: true,
     },
     Component: Input,
   },

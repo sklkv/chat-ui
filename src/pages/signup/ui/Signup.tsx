@@ -13,10 +13,14 @@ import { IFormFields } from "./types";
 
 export const Signup = () => {
   const formMethods = useForm<IFormFields>();
-  const { handleSubmit } = formMethods;
+  const {
+    handleSubmit,
+    formState: { errors },
+  } = formMethods;
   const onSubmit: SubmitHandler<IFormFields> = (data) => {
     console.log(data);
   };
+
   return (
     <>
       <PanelHeader>Регистрация</PanelHeader>
@@ -24,8 +28,19 @@ export const Signup = () => {
         <FormProvider {...formMethods}>
           <FormLayout onSubmit={handleSubmit(onSubmit)}>
             {FORM_SCHEME.map(
-              ({ name, formItemProps, componentProps = {}, Component }) => (
-                <FormField name={name} formItemProps={formItemProps} key={name}>
+              ({
+                name,
+                formItemProps,
+                componentProps = {},
+                registerOptions,
+                Component,
+              }) => (
+                <FormField
+                  key={name}
+                  name={name}
+                  formItemProps={formItemProps}
+                  registerOptions={registerOptions}
+                >
                   <Component {...componentProps} />
                 </FormField>
               )
@@ -34,7 +49,7 @@ export const Signup = () => {
               <Button
                 appearance="accent"
                 align="center"
-                // disabled={}
+                disabled={!!Object.keys(errors).length}
                 stretched
                 onClick={handleSubmit(onSubmit)}
                 aria-label="Далее"
