@@ -1,3 +1,1 @@
-export interface IChatProps {
-  nickname: string;
-}
+export interface IChatProps {}
