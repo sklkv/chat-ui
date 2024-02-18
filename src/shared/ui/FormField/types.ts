@@ -1,10 +1,15 @@
 import { ReactElement } from "react";
-import { RegisterOptions } from "react-hook-form";
-import { FormItemProps } from "@vkontakte/vkui";
+import { RegisterOptions, UseFormRegisterReturn } from "react-hook-form";
+import { FormItemProps, InputProps } from "@vkontakte/vkui";
 
 export interface IFormFieldProps {
   name: string;
   formItemProps: FormItemProps;
-  children: ReactElement;
+  children: ReactElement<InputProps>;
   registerOptions: RegisterOptions;
+}
+
+export interface IForwardRefFieldAdapterProps
+  extends UseFormRegisterReturn<string> {
+  children: ReactElement<InputProps> | null;
 }

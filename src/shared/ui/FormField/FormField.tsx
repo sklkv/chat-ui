@@ -1,9 +1,22 @@
-import React, { FC, cloneElement, isValidElement } from "react";
+import React, { FC, cloneElement, isValidElement, forwardRef } from "react";
 import { useFormContext } from "react-hook-form";
 import { FormItem } from "@vkontakte/vkui";
-import { IFormFieldProps } from "./types";
+import { IFormFieldProps, IForwardRefFieldAdapterProps } from "./types";
 
-// TODO: сделать fowardRef обертку над WrappedElement
+// реализован ради нивелирования ошибки в консоли от react-hook-form,
+// тк либа не видит прокинутого рефа путем forwardRef
+const ForwardRefFieldAdapter = forwardRef<
+  HTMLInputElement,
+  IForwardRefFieldAdapterProps
+>(({ children, ...props }, ref) => {
+  return isValidElement(children)
+    ? cloneElement(children, {
+        ...props,
+        getRef: ref,
+      })
+    : null;
+});
+
 export const FormField: FC<IFormFieldProps> = ({
   name,
   children,
@@ -11,15 +24,6 @@ export const FormField: FC<IFormFieldProps> = ({
   registerOptions,
 }) => {
   const { register, getFieldState } = useFormContext();
-
-  const WrappedElement = isValidElement(children)
-    ? cloneElement(children, {
-        ...register(name, registerOptions),
-        // @ts-ignore
-        getRef: register(name).ref,
-      })
-    : null;
-
   const { error, invalid } = getFieldState(name);
 
   return (
@@ -28,7 +32,9 @@ export const FormField: FC<IFormFieldProps> = ({
       bottom={invalid ? error?.message : null}
       status={invalid ? "error" : "default"}
     >
-      {WrappedElement}
+      <ForwardRefFieldAdapter {...register(name, registerOptions)}>
+        {isValidElement(children) ? children : null}
+      </ForwardRefFieldAdapter>
     </FormItem>
   );
 };
