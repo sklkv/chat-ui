@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { FormProvider, useForm, SubmitHandler } from "react-hook-form";
 import {
   PanelHeader,
@@ -7,19 +8,34 @@ import {
   FormItem,
   Button,
   Link,
+  ScreenSpinner,
+  Caption,
 } from "@vkontakte/vkui";
 import { FormField } from "@shared/ui";
+import { useSignInApi } from "../api";
 import { FORM_SCHEME } from "./scheme";
+import { APP_ROUTES } from "@shared/model";
 import { IFormFields } from "./types";
 
 export const Signin = () => {
+  const navigate = useNavigate();
   const formMethods = useForm<IFormFields>();
   const {
     handleSubmit,
     formState: { errors },
   } = formMethods;
-  const onSubmit: SubmitHandler<IFormFields> = (data) => {
-    console.log(data);
+  const { isLoading, errorMessage, handleSignIn } = useSignInApi();
+
+  const handleNavigateToChat = () => {
+    navigate(APP_ROUTES.CHAT);
+  };
+
+  const handleNavigateToSignUp = () => {
+    navigate(APP_ROUTES.SIGNUP);
+  };
+
+  const onSubmit: SubmitHandler<IFormFields> = async (data) => {
+    await handleSignIn(data, handleNavigateToChat);
   };
   return (
     <>
@@ -45,6 +61,11 @@ export const Signin = () => {
                 </FormField>
               )
             )}
+            {errorMessage ? (
+              <FormItem>
+                <Caption>{errorMessage}</Caption>
+              </FormItem>
+            ) : null}
             <FormItem>
               <Button
                 appearance="accent"
@@ -59,11 +80,14 @@ export const Signin = () => {
               </Button>
             </FormItem>
             <FormItem>
-              <Link href="/signup">или зарегистрироваться</Link>
+              <Link onClick={handleNavigateToSignUp}>
+                или зарегистрироваться
+              </Link>
             </FormItem>
           </FormLayout>
         </FormProvider>
       </Group>
+      {isLoading ? <ScreenSpinner /> : null}
     </>
   );
 };

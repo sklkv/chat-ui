@@ -1,11 +1,9 @@
 import { ElementType } from "react";
 import { FormItemProps } from "@vkontakte/vkui";
 import { RegisterOptions } from "react-hook-form";
+import { ISignInDto } from "@shared/model";
 
-export interface IFormFields {
-  username: string;
-  password: string;
-}
+export interface IFormFields extends ISignInDto {}
 
 export interface IFormScheme {
   name: keyof IFormFields;

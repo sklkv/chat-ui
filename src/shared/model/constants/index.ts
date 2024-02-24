@@ -1,4 +1,2 @@
-export enum APP_VIEW {
-  ENTRANCE = "entrance",
-  CHAT = "chat",
-}
+export * from "./app";
+export * from "./api";

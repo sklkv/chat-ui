@@ -1,4 +1,5 @@
 import React, { FC, useState, useEffect, ChangeEvent } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   PanelHeader,
   Group,
@@ -12,10 +13,11 @@ import {
 } from "@vkontakte/vkui";
 import { Message } from "@entities/message";
 import { useWsContext } from "@shared/lib";
-import { IMessage } from "@shared/model";
+import { IMessage, APP_ROUTES } from "@shared/model";
 import { IChatProps } from "./types";
 
 export const Chat: FC<IChatProps> = () => {
+  const navigate = useNavigate();
   const {
     isWsReady,
     handleConnectWs,
@@ -42,11 +44,12 @@ export const Chat: FC<IChatProps> = () => {
   };
 
   useEffect(() => {
-    handleConnectWs();
-    handleRecieveMessages(handleUpdateMessages);
-    return () => {
-      handleDisconnectWs();
-    };
+    navigate(APP_ROUTES.SIGNIN);
+    // handleConnectWs();
+    // handleRecieveMessages(handleUpdateMessages);
+    // return () => {
+    //   handleDisconnectWs();
+    // };
   }, []);
 
   return (

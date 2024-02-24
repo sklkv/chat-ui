@@ -8,21 +8,25 @@ import {
   SplitCol,
   View,
   Panel,
+  // ScreenSpinner,
 } from "@vkontakte/vkui";
 import "@vkontakte/vkui/dist/vkui.css";
 import { WsProvider } from "@shared/ui";
 
 export const Layout = () => {
-  const location = useLocation();
+  const { pathname } = useLocation();
   return (
     <ConfigProvider platform="vkcom" appearance="light">
       <AdaptivityProvider>
         <AppRoot mode="full">
-          <SplitLayout style={{ justifyContent: "center" }}>
+          <SplitLayout
+            // popout={<ScreenSpinner state="done">app spinner</ScreenSpinner>}
+            style={{ justifyContent: "center" }}
+          >
             <SplitCol maxWidth="900px">
               <WsProvider>
-                <View activePanel={location.pathname}>
-                  <Panel id={location.pathname}>
+                <View activePanel={pathname}>
+                  <Panel id={pathname}>
                     <Outlet />
                   </Panel>
                 </View>

@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { FormProvider, useForm, SubmitHandler } from "react-hook-form";
 import {
   PanelHeader,
@@ -6,12 +7,15 @@ import {
   FormLayout,
   FormItem,
   Button,
+  Link,
 } from "@vkontakte/vkui";
 import { FormField } from "@shared/ui";
 import { FORM_SCHEME } from "./scheme";
+import { APP_ROUTES } from "@shared/model";
 import { IFormFields } from "./types";
 
 export const Signup = () => {
+  const navigate = useNavigate();
   const formMethods = useForm<IFormFields>();
   const {
     handleSubmit,
@@ -19,6 +23,10 @@ export const Signup = () => {
   } = formMethods;
   const onSubmit: SubmitHandler<IFormFields> = (data) => {
     console.log(data);
+  };
+
+  const handleNavigateToSignIn = () => {
+    navigate(APP_ROUTES.SIGNIN);
   };
 
   return (
@@ -55,8 +63,11 @@ export const Signup = () => {
                 aria-label="Далее"
                 size="l"
               >
-                Далее
+                Зарегистрироваться
               </Button>
+            </FormItem>
+            <FormItem>
+              <Link onClick={handleNavigateToSignIn}>или войти</Link>
             </FormItem>
           </FormLayout>
         </FormProvider>
