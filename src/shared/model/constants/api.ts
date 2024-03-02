@@ -1,3 +1,5 @@
+import { IUser } from "../types";
+
 export enum API_BASE_URL {
   DEV = "http://localhost:5000",
 }
@@ -5,6 +7,7 @@ export enum API_BASE_URL {
 export enum API_ROUTES {
   SIGNUP = "/auth/signup",
   SIGNIN = "/auth/signin",
+  PROFILE = "/auth/profile",
 }
 
 export enum RESPONSE_STATUS {
@@ -23,3 +26,11 @@ export interface IFailedResponse {
     message: string;
   };
 }
+
+export interface IProfileResponse extends IUser {}
+
+export interface ISignInResponse extends IProfileResponse {
+  access_token: string;
+}
+
+export interface ISignUpResponse extends ISignInResponse {}

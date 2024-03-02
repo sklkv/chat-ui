@@ -1,5 +1,12 @@
 import { FetchService } from "./fetch";
-import { API_ROUTES, ISignInDto, ISignUpDto } from "@shared/model";
+import {
+  API_ROUTES,
+  ISignInDto,
+  ISignUpDto,
+  IProfileResponse,
+  ISignInResponse,
+  ISignUpResponse,
+} from "@shared/model";
 
 class ApiService extends FetchService {
   constructor() {
@@ -7,15 +14,19 @@ class ApiService extends FetchService {
   }
 
   public signin(data: ISignInDto) {
-    return this.post(API_ROUTES.SIGNIN, {
+    return this.post<ISignInResponse>(API_ROUTES.SIGNIN, {
       body: JSON.stringify(data),
     });
   }
 
   public signup(data: ISignUpDto) {
-    return this.post(API_ROUTES.SIGNUP, {
+    return this.post<ISignUpResponse>(API_ROUTES.SIGNUP, {
       body: JSON.stringify(data),
     });
+  }
+
+  public profile() {
+    return this.get<IProfileResponse>(API_ROUTES.PROFILE);
   }
 }
 

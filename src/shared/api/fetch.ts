@@ -1,4 +1,5 @@
 import { API_BASE_URL, ISuccessResponse, IFailedResponse } from "@shared/model";
+import { getLocalStorageItem } from "@shared/lib";
 
 export class FetchService {
   constructor() {}
@@ -9,14 +10,18 @@ export class FetchService {
       headers: {
         ...options?.headers,
         "Content-Type": "application/json",
+        Authorization: `Bearer ${getLocalStorageItem("access_token")}`,
       },
     })
       .then((response: Response) => {
         if (response.ok) {
           return response.json();
         } else {
-          // TODO: обернуть приложение в error boundary, обработать ошибку
           console.log(response.status);
+          if (response.status === 401) {
+            // TODO: рефреш токена
+          }
+          // TODO: обернуть приложение в error boundary, обработать ошибку
           throw new Error(response.statusText);
         }
       })

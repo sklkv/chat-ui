@@ -3,6 +3,7 @@ import { Layout } from "@shared/ui";
 import { Chat } from "@pages/chat";
 import { Signin } from "@pages/signin";
 import { Signup } from "@pages/signup";
+import { AuthChecker } from "@features/authChecker";
 import { APP_ROUTES } from "@shared/model";
 
 export const routes = createBrowserRouter([
@@ -12,7 +13,11 @@ export const routes = createBrowserRouter([
     children: [
       {
         index: true,
-        Component: Chat,
+        element: (
+          <AuthChecker>
+            <Chat />
+          </AuthChecker>
+        ),
       },
       {
         path: APP_ROUTES.SIGNIN.replace("/", ""),
@@ -21,6 +26,7 @@ export const routes = createBrowserRouter([
       {
         path: APP_ROUTES.SIGNUP.replace("/", ""),
         Component: Signup,
+        index: true,
       },
     ],
   },

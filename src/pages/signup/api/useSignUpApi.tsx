@@ -1,21 +1,20 @@
 import { useState } from "react";
-import { userStateService } from "@entities/user";
 import { api } from "@shared/api";
 import { RESPONSE_STATUS } from "@shared/model";
 import { setLocalStorageItem } from "@shared/lib";
-import { IHandleSignInProps } from "./types";
+import { IHandleSignUpProps } from "./types";
 
-export const useSignInApi = () => {
+export const useSignUpApi = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
 
-  const handleSignIn = async ({
+  const handleSignUp = async ({
     data,
     successCallback,
-  }: IHandleSignInProps) => {
+  }: IHandleSignUpProps) => {
     setErrorMessage("");
     setIsLoading(true);
-    const { status, response } = await api.signin(data);
+    const { status, response } = await api.signup(data);
 
     if (status === RESPONSE_STATUS.FAILED) {
       setErrorMessage(response.message);
@@ -23,9 +22,8 @@ export const useSignInApi = () => {
       return;
     }
     setLocalStorageItem({ key: "access_token", value: response.access_token });
-    userStateService.setState(response);
     setIsLoading(false);
     successCallback?.();
   };
-  return { isLoading, errorMessage, handleSignIn } as const;
+  return { isLoading, errorMessage, handleSignUp } as const;
 };

@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { FormProvider, useForm, SubmitHandler } from "react-hook-form";
 import {
   PanelHeader,
-  Group,
   FormLayout,
   FormItem,
   Button,
@@ -17,6 +16,7 @@ import { FORM_SCHEME } from "./scheme";
 import { APP_ROUTES } from "@shared/model";
 import { IFormFields } from "./types";
 
+// TODO: отобразить errorMessage иначе
 export const Signin = () => {
   const navigate = useNavigate();
   const formMethods = useForm<IFormFields>();
@@ -35,58 +35,54 @@ export const Signin = () => {
   };
 
   const onSubmit: SubmitHandler<IFormFields> = async (data) => {
-    await handleSignIn(data, handleNavigateToChat);
+    await handleSignIn({ data, successCallback: handleNavigateToChat });
   };
   return (
     <>
       <PanelHeader>Вход</PanelHeader>
-      <Group>
-        <FormProvider {...formMethods}>
-          <FormLayout onSubmit={handleSubmit(onSubmit)}>
-            {FORM_SCHEME.map(
-              ({
-                name,
-                formItemProps,
-                componentProps = {},
-                registerOptions,
-                Component,
-              }) => (
-                <FormField
-                  key={name}
-                  name={name}
-                  formItemProps={formItemProps}
-                  registerOptions={registerOptions}
-                >
-                  <Component {...componentProps} />
-                </FormField>
-              )
-            )}
-            {errorMessage ? (
-              <FormItem>
-                <Caption>{errorMessage}</Caption>
-              </FormItem>
-            ) : null}
-            <FormItem>
-              <Button
-                appearance="accent"
-                align="center"
-                disabled={!!Object.keys(errors).length}
-                stretched
-                onClick={handleSubmit(onSubmit)}
-                aria-label="Вход"
-                size="l"
+      <FormProvider {...formMethods}>
+        <FormLayout onSubmit={handleSubmit(onSubmit)}>
+          {FORM_SCHEME.map(
+            ({
+              name,
+              formItemProps,
+              componentProps = {},
+              registerOptions,
+              Component,
+            }) => (
+              <FormField
+                key={name}
+                name={name}
+                formItemProps={formItemProps}
+                registerOptions={registerOptions}
               >
-                Войти
-              </Button>
-            </FormItem>
+                <Component {...componentProps} />
+              </FormField>
+            )
+          )}
+          {errorMessage ? (
             <FormItem>
-              <Link onClick={handleNavigateToSignUp}>
-                или зарегистрироваться
-              </Link>
+              <Caption>{errorMessage}</Caption>
             </FormItem>
-          </FormLayout>
-        </FormProvider>
-      </Group>
+          ) : null}
+          <FormItem>
+            <Button
+              appearance="accent"
+              align="center"
+              disabled={!!Object.keys(errors).length}
+              stretched
+              onClick={handleSubmit(onSubmit)}
+              aria-label="Вход"
+              size="l"
+            >
+              Войти
+            </Button>
+          </FormItem>
+          <FormItem>
+            <Link onClick={handleNavigateToSignUp}>или зарегистрироваться</Link>
+          </FormItem>
+        </FormLayout>
+      </FormProvider>
       {isLoading ? <ScreenSpinner /> : null}
     </>
   );

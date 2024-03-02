@@ -1,38 +1,58 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FormProvider, useForm, SubmitHandler } from "react-hook-form";
 import {
   PanelHeader,
-  Group,
   FormLayout,
   FormItem,
   Button,
   Link,
+  ScreenSpinner,
+  Caption,
+  Placeholder,
 } from "@vkontakte/vkui";
+import { Icon56CheckCircleOutline } from "@vkontakte/icons";
 import { FormField } from "@shared/ui";
-import { FORM_SCHEME } from "./scheme";
 import { APP_ROUTES } from "@shared/model";
+import { useSignUpApi } from "../api";
+import { FORM_SCHEME } from "./scheme";
 import { IFormFields } from "./types";
 
+// TODO: отобразить errorMessage иначе
 export const Signup = () => {
+  const [hasSuccess, setHasSuccess] = useState<boolean>(false);
   const navigate = useNavigate();
   const formMethods = useForm<IFormFields>();
   const {
     handleSubmit,
     formState: { errors },
   } = formMethods;
-  const onSubmit: SubmitHandler<IFormFields> = (data) => {
-    console.log(data);
-  };
+  const { isLoading, errorMessage, handleSignUp } = useSignUpApi();
 
   const handleNavigateToSignIn = () => {
     navigate(APP_ROUTES.SIGNIN);
   };
 
+  const handleSetSuccess = () => setHasSuccess(true);
+
+  const onSubmit: SubmitHandler<IFormFields> = async (data) => {
+    await handleSignUp({ data, successCallback: handleSetSuccess });
+  };
+
   return (
     <>
       <PanelHeader>Регистрация</PanelHeader>
-      <Group>
+      {hasSuccess ? (
+        <Placeholder
+          header="Регистрация прошла успешно!"
+          icon={<Icon56CheckCircleOutline />}
+          action={
+            <Button size="m" onClick={handleNavigateToSignIn}>
+              Вход
+            </Button>
+          }
+        />
+      ) : (
         <FormProvider {...formMethods}>
           <FormLayout onSubmit={handleSubmit(onSubmit)}>
             {FORM_SCHEME.map(
@@ -53,6 +73,11 @@ export const Signup = () => {
                 </FormField>
               )
             )}
+            {errorMessage ? (
+              <FormItem>
+                <Caption>{errorMessage}</Caption>
+              </FormItem>
+            ) : null}
             <FormItem>
               <Button
                 appearance="accent"
@@ -71,7 +96,8 @@ export const Signup = () => {
             </FormItem>
           </FormLayout>
         </FormProvider>
-      </Group>
+      )}
+      {isLoading ? <ScreenSpinner /> : null}
     </>
   );
 };

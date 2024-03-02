@@ -16,6 +16,8 @@ import { useWsContext } from "@shared/lib";
 import { IMessage, APP_ROUTES } from "@shared/model";
 import { IChatProps } from "./types";
 
+import { userStateService } from "@entities/user";
+
 export const Chat: FC<IChatProps> = () => {
   const navigate = useNavigate();
   const {
@@ -44,13 +46,14 @@ export const Chat: FC<IChatProps> = () => {
   };
 
   useEffect(() => {
-    navigate(APP_ROUTES.SIGNIN);
+    // navigate(APP_ROUTES.SIGNIN);
     // handleConnectWs();
     // handleRecieveMessages(handleUpdateMessages);
     // return () => {
     //   handleDisconnectWs();
     // };
   }, []);
+  console.log(userStateService.getState());
 
   return (
     <>
