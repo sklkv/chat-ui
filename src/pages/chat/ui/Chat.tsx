@@ -53,7 +53,6 @@ export const Chat: FC<IChatProps> = () => {
     //   handleDisconnectWs();
     // };
   }, []);
-  console.log(userStateService.getState());
 
   return (
     <>

@@ -17,17 +17,17 @@ export class FetchService {
         if (response.ok) {
           return response.json();
         } else {
-          console.log(response.status);
           if (response.status === 401) {
             // TODO: рефреш токена
+          } else {
+            throw new Error(String(response.status));
           }
-          // TODO: обернуть приложение в error boundary, обработать ошибку
-          throw new Error(response.statusText);
+          throw new Error(String(response.status));
         }
       })
-      .then((data: ISuccessResponse<T> | IFailedResponse) => {
-        // TODO: обернуть приложение в error boundary, обработать ошибку
-        return data;
+      .then((data: ISuccessResponse<T> | IFailedResponse) => data)
+      .catch((error: Error) => {
+        throw error;
       });
   }
 
