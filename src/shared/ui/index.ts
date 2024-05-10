@@ -4,3 +4,4 @@ export * from "./FormField";
 export * from "./ErrorBoundary";
 export * from "./TextMessage";
 export * from "./MessageInput";
+export * from "./ThemeProvider";

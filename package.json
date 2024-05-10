@@ -16,6 +16,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "@radix-ui/themes": "^3.0.3",
     "@vkontakte/icons": "2.92.0",
     "@vkontakte/vk-bridge": "2.12.2",
     "@vkontakte/vkui": "5.10.0",

@@ -1,59 +1,56 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import React from "react";
+import type { Meta, StoryObj } from "@storybook/react";
 import "react-chat-elements/dist/main.css";
 
-import { TextMessage } from './TextMessage';
+import { TextMessage } from "./TextMessage";
 
 const meta = {
-  title: 'UI-KIT/TextMessage',
+  title: "UI-KIT/TextMessage",
   component: TextMessage,
   parameters: {
-    layout: 'centered',
+    layout: "centered",
   },
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   argTypes: {
     id: {
-      control: 'text',
+      control: "text",
     },
     title: {
-      defaultValue: 'Title'
+      defaultValue: "Title",
     },
     text: {
-      control: 'text',
+      control: "text",
     },
     position: {
-      control: 'select',
-      options: ['right', 'left']
+      control: "select",
+      options: ["right", "left"],
     },
     titleColor: {
-      control: 'color'
+      control: "color",
     },
     date: {
-      control: 'date'
+      control: "date",
     },
     status: {
-      control: 'select',
-      options: ['waiting', 'sent', 'received', 'read']
-    }
+      control: "select",
+      options: ["waiting", "sent", "received", "read"],
+    },
   },
   args: {
-    id: '1',
-    title: 'Title',
-    text: 'Some text',
-    position: 'right',
-    titleColor: 'blue',
+    id: "1",
+    title: "Title",
+    text: "Some text",
+    position: "right",
+    titleColor: "blue",
     date: new Date(),
-    status: 'read'
+    status: "read",
   },
-} satisfies Meta<typeof TextMessage>;
+} as Meta<typeof TextMessage>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const TextMessageStory: Story = {
   args: {},
-  render: (props) => (
-    <TextMessage {...props} />
-  )
+  render: (props) => <TextMessage {...props} />,
 };
-
