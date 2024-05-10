@@ -4,19 +4,17 @@ import {
   PanelHeader,
   Group,
   Spacing,
-  WriteBar,
-  WriteBarIcon,
   Card,
-  CardGrid,
   FixedLayout,
   Spinner,
 } from "@vkontakte/vkui";
-import { Message } from "@entities/message";
 import { useWsContext } from "@shared/lib";
-import { IMessage, APP_ROUTES } from "@shared/model";
+import { IMessage } from "@shared/model";
+import { TextMessage, MessageInput } from "@shared/ui";
 import { IChatProps } from "./types";
 
-import { userStateService } from "@entities/user";
+// import { userStateService } from "@entities/user";
+import { MOCK_MESSAGES } from "./mock";
 
 export const Chat: FC<IChatProps> = () => {
   const navigate = useNavigate();
@@ -47,11 +45,11 @@ export const Chat: FC<IChatProps> = () => {
 
   useEffect(() => {
     // navigate(APP_ROUTES.SIGNIN);
-    // handleConnectWs();
+    handleConnectWs();
     // handleRecieveMessages(handleUpdateMessages);
-    // return () => {
-    //   handleDisconnectWs();
-    // };
+    return () => {
+      handleDisconnectWs();
+    };
   }, []);
 
   return (
@@ -63,11 +61,9 @@ export const Chat: FC<IChatProps> = () => {
         <Group>
           <Card mode="outline">
             <Spacing size={70} />
-            <CardGrid size="l" style={{ marginTop: "auto" }}>
-              {messages.map((item, index) => (
-                <Message key={index} from={item.from} message={item.message} />
-              ))}
-            </CardGrid>
+            {MOCK_MESSAGES.map((message, index) => (
+              <TextMessage {...message} id={index} key={index} />
+            ))}
             <Spacing size={70} />
           </Card>
         </Group>
@@ -87,22 +83,7 @@ export const Chat: FC<IChatProps> = () => {
       )}
       <FixedLayout vertical="bottom" filled>
         <Spacing />
-        <WriteBar
-          value={message}
-          onChange={onMessageChange}
-          shadow
-          disabled={!isWsReady}
-          after={
-            <>
-              <WriteBarIcon
-                mode="send"
-                aria-label="Отправить сообщение"
-                disabled={message.length === 0}
-                onClick={sendMessage}
-              />
-            </>
-          }
-        />
+        <MessageInput maxHeight={150} multiline />
       </FixedLayout>
     </>
   );
