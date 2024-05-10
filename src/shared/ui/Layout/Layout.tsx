@@ -14,10 +14,10 @@ import "@vkontakte/vkui/dist/vkui.css";
 import { WsProvider, ErrorBoundary } from "@shared/ui";
 
 export const Layout = () => {
-  const naigate = useNavigate();
+  const navigate = useNavigate();
   const { pathname } = useLocation();
   return (
-    <ErrorBoundary navigate={naigate}>
+    <ErrorBoundary navigate={navigate}>
       <ConfigProvider platform="vkcom" appearance="light">
         <AdaptivityProvider>
           <AppRoot mode="full">
