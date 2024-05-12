@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import { MessageInput } from "./MessageInput";
+import { Input } from "./Input";
 
 const meta = {
-  title: "UI-KIT/MessageInput",
-  component: MessageInput,
+  title: "UI-KIT/Input",
+  component: Input,
   parameters: {
     layout: "centered",
   },
@@ -27,23 +27,23 @@ const meta = {
     value: "",
     size: "2",
     width: "500px",
-    placeholder: "Start conversation...",
+    placeholder: "Placeholder...",
     disabled: false,
   },
-} as Meta<typeof MessageInput>;
+} as Meta<typeof Input>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const MessageInputStory: Story = {
+export const InputStory: Story = {
   args: {},
   render: (props) => {
-    const [value, setValue] = useState<string>(props?.value || "");
+    const [value, setValue] = useState<string | number>(props?.value || "");
 
     const onChange = (value: string) => {
       setValue(value);
     };
 
-    return <MessageInput {...props} value={value} onChange={onChange} />;
+    return <Input {...props} value={value} onChange={onChange} />;
   },
 };

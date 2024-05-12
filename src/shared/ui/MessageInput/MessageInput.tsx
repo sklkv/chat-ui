@@ -1,7 +1,6 @@
 import React, { FC } from "react";
-import { Flex, TextArea } from "@radix-ui/themes";
+import { Flex, TextArea, IconButton } from "@radix-ui/themes";
 import { PaperPlaneIcon } from "@radix-ui/react-icons";
-import { Button } from "../Button";
 import { IMessageInputProps } from "./types";
 
 import styles from "./MessageInput.modules.css";
@@ -12,6 +11,7 @@ export const MessageInput: FC<IMessageInputProps> = ({
   onChange,
   value,
   onSend,
+  disabled,
   ...props
 }) => {
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -19,21 +19,18 @@ export const MessageInput: FC<IMessageInputProps> = ({
   };
 
   return (
-    <Flex direction="row" justify="between" width={width}>
+    <Flex direction="row" justify="between" width={width} gap="2">
       <TextArea
         className={styles["message-input_textarea"]}
         onChange={handleChange}
         value={value}
         size={size}
+        disabled={disabled}
         {...props}
       />
-      <Button
-        className={styles["message-input_button"]}
-        size={size}
-        onClick={onSend}
-      >
+      <IconButton size={size} disabled={disabled} onClick={onSend}>
         <PaperPlaneIcon />
-      </Button>
+      </IconButton>
     </Flex>
   );
 };
