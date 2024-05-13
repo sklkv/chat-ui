@@ -1,24 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FormProvider, useForm, SubmitHandler } from "react-hook-form";
-import {
-  PanelHeader,
-  FormLayout,
-  FormItem,
-  Button,
-  Link,
-  ScreenSpinner,
-  Caption,
-  Placeholder,
-} from "@vkontakte/vkui";
-import { Icon56CheckCircleOutline } from "@vkontakte/icons";
-import { FormField } from "@shared/ui";
+import { Flex, Text, Link, Card } from "@radix-ui/themes";
+import { FormField, Button } from "@shared/ui";
 import { APP_ROUTES } from "@shared/model";
 import { useSignUpApi } from "../api";
 import { FORM_SCHEME } from "./scheme";
 import { IFormFields } from "./types";
 
-// TODO: отобразить errorMessage иначе
 export const Signup = () => {
   const [hasSuccess, setHasSuccess] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -39,65 +28,61 @@ export const Signup = () => {
     await handleSignUp({ data, successCallback: handleSetSuccess });
   };
 
+  // TODO: refactor inline styles, add loader
   return (
-    <>
-      <PanelHeader>Регистрация</PanelHeader>
+    <Card style={{ minWidth: "540px" }} size="5" variant="ghost">
+      <Text as="div" size="5" mb="1" weight="medium" align="center">
+        Регистрация
+      </Text>
       {hasSuccess ? (
-        <Placeholder
-          header="Регистрация прошла успешно!"
-          icon={<Icon56CheckCircleOutline />}
-          action={
-            <Button size="m" onClick={handleNavigateToSignIn}>
-              Вход
-            </Button>
-          }
-        />
+        <div>
+          success <Button onClick={handleNavigateToSignIn}>Вход</Button>
+        </div>
       ) : (
         <FormProvider {...formMethods}>
-          <FormLayout onSubmit={handleSubmit(onSubmit)}>
-            {FORM_SCHEME.map(
-              ({
-                name,
-                formItemProps,
-                componentProps = {},
-                registerOptions,
-                Component,
-              }) => (
-                <FormField
-                  key={name}
-                  name={name}
-                  formItemProps={formItemProps}
-                  registerOptions={registerOptions}
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Flex direction="column" gap="3">
+              <Flex direction="column" gap="3">
+                {FORM_SCHEME.map(
+                  ({
+                    name,
+                    labelProps,
+                    componentProps = {},
+                    registerOptions,
+                    Component,
+                  }) => (
+                    <FormField
+                      key={name}
+                      name={name}
+                      labelProps={labelProps}
+                      registerOptions={registerOptions}
+                    >
+                      <Component {...componentProps} />
+                    </FormField>
+                  )
+                )}
+              </Flex>
+              <Flex direction="column" gap="2">
+                {errorMessage ? (
+                  <Text size="2" color="red">
+                    {errorMessage}
+                  </Text>
+                ) : null}
+                <Button
+                  disabled={!!Object.keys(errors).length}
+                  onClick={handleSubmit(onSubmit)}
                 >
-                  <Component {...componentProps} />
-                </FormField>
-              )
-            )}
-            {errorMessage ? (
-              <FormItem>
-                <Caption>{errorMessage}</Caption>
-              </FormItem>
-            ) : null}
-            <FormItem>
-              <Button
-                appearance="accent"
-                align="center"
-                disabled={!!Object.keys(errors).length}
-                stretched
-                onClick={handleSubmit(onSubmit)}
-                aria-label="Далее"
-                size="l"
-              >
-                Зарегистрироваться
-              </Button>
-            </FormItem>
-            <FormItem>
-              <Link onClick={handleNavigateToSignIn}>или войти</Link>
-            </FormItem>
-          </FormLayout>
+                  Зарегистрироваться
+                </Button>
+                <Link onClick={handleNavigateToSignIn} size="2">
+                  или войти
+                </Link>
+              </Flex>
+            </Flex>
+          </form>
         </FormProvider>
       )}
-      {isLoading ? <ScreenSpinner /> : null}
-    </>
+      {/* {isLoading ? <ScreenSpinner /> : null} */}
+    </Card>
   );
 };

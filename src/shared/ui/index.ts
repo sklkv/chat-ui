@@ -5,3 +5,6 @@ export * from "./ErrorBoundary";
 export * from "./TextMessage";
 export * from "./MessageInput";
 export * from "./ThemeProvider";
+export * from "./Button";
+export * from "./Input";
+export * from "./TextMessage";

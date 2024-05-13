@@ -1,22 +1,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { FormProvider, useForm, SubmitHandler } from "react-hook-form";
-import {
-  PanelHeader,
-  FormLayout,
-  FormItem,
-  Button,
-  Link,
-  ScreenSpinner,
-  Caption,
-} from "@vkontakte/vkui";
-import { FormField } from "@shared/ui";
+import { Flex, Text, Link, Card } from "@radix-ui/themes";
+import { FormField, Button } from "@shared/ui";
 import { useSignInApi } from "../api";
 import { FORM_SCHEME } from "./scheme";
 import { APP_ROUTES } from "@shared/model";
 import { IFormFields } from "./types";
 
-// TODO: отобразить errorMessage иначе
 export const Signin = () => {
   const navigate = useNavigate();
   const formMethods = useForm<IFormFields>();
@@ -37,53 +28,56 @@ export const Signin = () => {
   const onSubmit: SubmitHandler<IFormFields> = async (data) => {
     await handleSignIn({ data, successCallback: handleNavigateToChat });
   };
+
+  // TODO: refactor inline styles, add loader
   return (
-    <>
-      <PanelHeader>Вход</PanelHeader>
+    <Card style={{ minWidth: "540px" }} size="5" variant="ghost">
+      <Text as="div" size="5" mb="1" weight="medium" align="center">
+        Вход
+      </Text>
       <FormProvider {...formMethods}>
-        <FormLayout onSubmit={handleSubmit(onSubmit)}>
-          {FORM_SCHEME.map(
-            ({
-              name,
-              formItemProps,
-              componentProps = {},
-              registerOptions,
-              Component,
-            }) => (
-              <FormField
-                key={name}
-                name={name}
-                formItemProps={formItemProps}
-                registerOptions={registerOptions}
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Flex direction="column" gap="3">
+            <Flex direction="column" gap="3">
+              {FORM_SCHEME.map(
+                ({
+                  name,
+                  labelProps,
+                  componentProps = {},
+                  registerOptions,
+                  Component,
+                }) => (
+                  <FormField
+                    key={name}
+                    name={name}
+                    labelProps={labelProps}
+                    registerOptions={registerOptions}
+                  >
+                    <Component {...componentProps} />
+                  </FormField>
+                )
+              )}
+            </Flex>
+            <Flex direction="column" gap="2">
+              {errorMessage ? (
+                <Text size="2" color="red">
+                  {errorMessage}
+                </Text>
+              ) : null}
+              <Button
+                disabled={!!Object.keys(errors).length}
+                onClick={handleSubmit(onSubmit)}
               >
-                <Component {...componentProps} />
-              </FormField>
-            )
-          )}
-          {errorMessage ? (
-            <FormItem>
-              <Caption>{errorMessage}</Caption>
-            </FormItem>
-          ) : null}
-          <FormItem>
-            <Button
-              appearance="accent"
-              align="center"
-              disabled={!!Object.keys(errors).length}
-              stretched
-              onClick={handleSubmit(onSubmit)}
-              aria-label="Вход"
-              size="l"
-            >
-              Войти
-            </Button>
-          </FormItem>
-          <FormItem>
-            <Link onClick={handleNavigateToSignUp}>или зарегистрироваться</Link>
-          </FormItem>
-        </FormLayout>
+                Войти
+              </Button>
+              <Link onClick={handleNavigateToSignUp} size="2">
+                или зарегистрироваться
+              </Link>
+            </Flex>
+          </Flex>
+        </form>
       </FormProvider>
-      {isLoading ? <ScreenSpinner /> : null}
-    </>
+      {/* {isLoading ? <ScreenSpinner /> : null} */}
+    </Card>
   );
 };

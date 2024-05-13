@@ -16,6 +16,7 @@ import { IChatProps } from "./types";
 // import { userStateService } from "@entities/user";
 import { MOCK_MESSAGES } from "./mock";
 
+// TODO: выпилить vkui
 export const Chat: FC<IChatProps> = () => {
   const navigate = useNavigate();
   const {
@@ -83,7 +84,7 @@ export const Chat: FC<IChatProps> = () => {
       )}
       <FixedLayout vertical="bottom" filled>
         <Spacing />
-        <MessageInput maxHeight={150} multiline />
+        <MessageInput />
       </FixedLayout>
     </>
   );

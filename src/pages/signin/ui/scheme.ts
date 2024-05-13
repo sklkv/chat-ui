@@ -1,13 +1,11 @@
-import { Input } from "@vkontakte/vkui";
+import { Input } from "@shared/ui";
 import { IFormScheme } from "./types";
 
 export const FORM_SCHEME: IFormScheme[] = [
   {
     name: "username",
-    formItemProps: {
-      htmlFor: "username",
-      top: "Имя",
-      bottomId: "username-type",
+    labelProps: {
+      label: "Имя",
     },
     registerOptions: {
       required: true,
@@ -16,10 +14,8 @@ export const FORM_SCHEME: IFormScheme[] = [
   },
   {
     name: "password",
-    formItemProps: {
-      htmlFor: "password",
-      top: "Пароль",
-      bottomId: "password-type",
+    labelProps: {
+      label: "Пароль",
     },
     componentProps: {
       type: "password",

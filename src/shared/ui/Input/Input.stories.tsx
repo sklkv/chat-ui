@@ -40,8 +40,8 @@ export const InputStory: Story = {
   render: (props) => {
     const [value, setValue] = useState<string | number>(props?.value || "");
 
-    const onChange = (value: string) => {
-      setValue(value);
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setValue(e.target.value);
     };
 
     return <Input {...props} value={value} onChange={onChange} />;

@@ -1,40 +1,29 @@
-import React, { FC, cloneElement, isValidElement, forwardRef } from "react";
+import React, { FC, cloneElement, isValidElement } from "react";
 import { useFormContext } from "react-hook-form";
-import { FormItem } from "@vkontakte/vkui";
-import { IFormFieldProps, IForwardRefFieldAdapterProps } from "./types";
-
-// реализован ради нивелирования ошибки в консоли от react-hook-form,
-// тк либа не видит прокинутого рефа путем forwardRef
-const ForwardRefFieldAdapter = forwardRef<
-  HTMLInputElement,
-  IForwardRefFieldAdapterProps
->(({ children, ...props }, ref) => {
-  return isValidElement(children)
-    ? cloneElement(children, {
-        ...props,
-        getRef: ref,
-      })
-    : null;
-});
+import { Flex, Text } from "@radix-ui/themes";
+import { IFormFieldProps } from "./types";
 
 export const FormField: FC<IFormFieldProps> = ({
   name,
   children,
-  formItemProps,
+  labelProps,
   registerOptions,
 }) => {
   const { register, getFieldState } = useFormContext();
   const { error, invalid } = getFieldState(name);
 
   return (
-    <FormItem
-      {...formItemProps}
-      bottom={invalid ? error?.message : null}
-      status={invalid ? "error" : "default"}
-    >
-      <ForwardRefFieldAdapter {...register(name, registerOptions)}>
-        {isValidElement(children) ? children : null}
-      </ForwardRefFieldAdapter>
-    </FormItem>
+    <Flex direction="column" gap="3">
+      <label>
+        <Text as="div" size="2" mb="1" weight="medium">
+          {labelProps?.label}
+        </Text>
+        {isValidElement(children)
+          ? cloneElement(children, {
+              ...register(name, registerOptions),
+            })
+          : null}
+      </label>
+    </Flex>
   );
 };

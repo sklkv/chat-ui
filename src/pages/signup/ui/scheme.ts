@@ -1,13 +1,11 @@
-import { Input } from "@vkontakte/vkui";
+import { Input } from "@shared/ui";
 import { IFormScheme } from "./types";
 
 export const FORM_SCHEME: IFormScheme[] = [
   {
     name: "username",
-    formItemProps: {
-      htmlFor: "username",
-      top: "Имя",
-      bottomId: "username-type",
+    labelProps: {
+      label: "Имя",
     },
     componentProps: {},
     registerOptions: {
@@ -17,10 +15,8 @@ export const FORM_SCHEME: IFormScheme[] = [
   },
   {
     name: "phoneNumber",
-    formItemProps: {
-      htmlFor: "phoneNumber",
-      top: "Телефон",
-      bottomId: "phoneNumber-type",
+    labelProps: {
+      label: "Телефон",
     },
     componentProps: {
       type: "tel",
@@ -33,10 +29,8 @@ export const FORM_SCHEME: IFormScheme[] = [
   },
   {
     name: "email",
-    formItemProps: {
-      htmlFor: "email",
-      top: "Электронная почта",
-      bottomId: "email-type",
+    labelProps: {
+      label: "Электронная почта",
     },
     componentProps: {
       type: "email",
@@ -52,10 +46,8 @@ export const FORM_SCHEME: IFormScheme[] = [
   },
   {
     name: "password",
-    formItemProps: {
-      htmlFor: "password",
-      top: "Пароль",
-      bottomId: "password-type",
+    labelProps: {
+      label: "Пароль",
     },
     componentProps: {
       type: "password",
@@ -75,10 +67,8 @@ export const FORM_SCHEME: IFormScheme[] = [
   },
   {
     name: "confirmPassword",
-    formItemProps: {
-      htmlFor: "confirmPassword",
-      top: "Пароль",
-      bottomId: "confirmPassword-type",
+    labelProps: {
+      label: "Подтверждение пароля",
     },
     componentProps: {
       type: "password",
