@@ -1,20 +1,15 @@
 import React, { FC, useState, useEffect, ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  PanelHeader,
-  Group,
-  Spacing,
-  Card,
-  FixedLayout,
-  Spinner,
-} from "@vkontakte/vkui";
+import { Flex } from "@radix-ui/themes";
+import { ChatList } from "@widgets/ChatList";
+import { CurrentChat } from "@widgets/CurrentChat";
 import { useWsContext } from "@shared/lib";
 import { IMessage } from "@shared/model";
-import { TextMessage, MessageInput } from "@shared/ui";
+// import { TextMessage, MessageInput } from "@shared/ui";
 import { IChatProps } from "./types";
 
 // import { userStateService } from "@entities/user";
-import { MOCK_MESSAGES } from "./mock";
+// import { MOCK_MESSAGES } from "./mock";
 
 // TODO: выпилить vkui
 export const Chat: FC<IChatProps> = () => {
@@ -54,38 +49,9 @@ export const Chat: FC<IChatProps> = () => {
   }, []);
 
   return (
-    <>
-      <FixedLayout vertical="top" filled>
-        <PanelHeader>Чат</PanelHeader>
-      </FixedLayout>
-      {isWsReady ? (
-        <Group>
-          <Card mode="outline">
-            <Spacing size={70} />
-            {MOCK_MESSAGES.map((message, index) => (
-              <TextMessage {...message} id={index} key={index} />
-            ))}
-            <Spacing size={70} />
-          </Card>
-        </Group>
-      ) : (
-        <div
-          aria-busy={true}
-          aria-live="polite"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            flexDirection: "column",
-            height: "100vh",
-          }}
-        >
-          <Spinner size="large" style={{ margin: "20px 0" }} />
-        </div>
-      )}
-      <FixedLayout vertical="bottom" filled>
-        <Spacing />
-        <MessageInput />
-      </FixedLayout>
-    </>
+    <Flex direction="row" width="900px">
+      <ChatList />
+      <CurrentChat />
+    </Flex>
   );
 };

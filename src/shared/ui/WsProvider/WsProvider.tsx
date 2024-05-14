@@ -1,10 +1,10 @@
-import React, { FC, useState, useRef } from "react";
+import React, { FC, useState, useRef, PropsWithChildren } from "react";
 import { websocket } from "@shared/api";
 import { WsContext } from "@shared/lib";
 import { Socket } from "socket.io-client";
 import { IMessage } from "@shared/model";
 
-export const WsProvider: FC<{ children: React.ReactNode }> = ({ children }) => {
+export const WsProvider: FC<PropsWithChildren> = ({ children }) => {
   const [isWsReady, setIsWsReady] = useState<boolean>(false);
   const { current: ws } = useRef<Socket>(websocket);
 
