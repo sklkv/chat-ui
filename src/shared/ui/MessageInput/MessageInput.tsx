@@ -21,7 +21,7 @@ export const MessageInput: FC<IMessageInputProps> = ({
   return (
     <Flex direction="row" justify="between" width={width} gap="2">
       <TextArea
-        className={styles["message-input_textarea"]}
+        className={styles["message-input-textarea"]}
         onChange={handleChange}
         value={value}
         size={size}

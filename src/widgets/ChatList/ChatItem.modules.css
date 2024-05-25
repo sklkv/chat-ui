@@ -1,0 +1,15 @@
+@import "@radix-ui/themes/tokens/base.css";
+
+.chat-item-wrapper {
+  cursor: pointer;
+  width: 100%;
+  padding-right: var(--space-8);
+  &:hover {
+    background-color: var(--blue-2);
+  }
+}
+
+.chat-item-wrapper--selected {
+  composes: chat-item-wrapper;
+  background-color: var(--blue-5);
+}

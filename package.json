@@ -21,6 +21,7 @@
     "@vkontakte/icons": "2.92.0",
     "@vkontakte/vk-bridge": "2.12.2",
     "@vkontakte/vkui": "5.10.0",
+    "classnames": "^2.5.1",
     "react": "18.2.0",
     "react-chat-elements": "12.0.14",
     "react-dom": "18.2.0",

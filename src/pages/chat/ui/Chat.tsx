@@ -49,7 +49,7 @@ export const Chat: FC<IChatProps> = () => {
   }, []);
 
   return (
-    <Flex direction="row" width="900px" height="max-content">
+    <Flex direction="row" width="900px" height="100%">
       <ChatList />
       <CurrentChat />
     </Flex>
