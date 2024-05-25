@@ -8,7 +8,12 @@ export const Layout = () => {
   return (
     <ErrorBoundary navigate={navigate}>
       <WsProvider>
-        <Flex direction="column" justify="center" align="center" height="100vh">
+        <Flex
+          direction="column"
+          justify="center"
+          align="center"
+          height="max-content"
+        >
           <Outlet />
         </Flex>
       </WsProvider>
