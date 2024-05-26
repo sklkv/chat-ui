@@ -12,11 +12,8 @@ const meta = {
   },
   tags: ["autodocs"],
   argTypes: {
-    id: {
-      control: "text",
-    },
     title: {
-      defaultValue: "Title",
+      control: "text",
     },
     text: {
       control: "text",
@@ -25,25 +22,20 @@ const meta = {
       control: "select",
       options: ["right", "left"],
     },
-    titleColor: {
-      control: "color",
-    },
     date: {
       control: "date",
     },
-    status: {
-      control: "select",
-      options: ["waiting", "sent", "received", "read"],
-    },
+    // status: {
+    //   control: "select",
+    //   options: ["waiting", "sent", "received", "read"],
+    // },
   },
   args: {
-    id: "1",
     title: "Title",
     text: "Some text",
     position: "right",
-    titleColor: "blue",
     date: new Date(),
-    status: "read",
+    // status: "read",
   },
 } as Meta<typeof TextMessage>;
 

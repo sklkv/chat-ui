@@ -1,8 +1,7 @@
 import React, { FC } from "react";
 import { Card, Flex, ScrollArea } from "@radix-ui/themes";
 import { useWsContext } from "@shared/lib";
-import { Input } from "@shared/ui";
-import { ChatItem } from "./ChatItem";
+import { Input, ChatItem } from "@shared/ui";
 
 export const ChatList: FC = () => {
   const {} = useWsContext();

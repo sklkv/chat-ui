@@ -1,16 +1,28 @@
 import React, { FC } from "react";
-import { MessageBox } from "react-chat-elements";
+import { Card, Flex, Text } from "@radix-ui/themes";
 import { ITextMessageProps } from "./types";
 
-export const TextMessage: FC<ITextMessageProps> = (props) => (
-  <MessageBox
-    type="text"
-    retracted={false}
-    notch={true}
-    removeButton={false}
-    replyButton={false}
-    forwarded={false}
-    focus={false}
-    {...props}
-  />
-);
+export const TextMessage: FC<ITextMessageProps> = ({
+  position,
+  title,
+  text,
+  date,
+}) => {
+  return (
+    <Flex
+      direction="row"
+      width="100%"
+      justify={position === "left" ? "start" : "end"}
+    >
+      <Card>
+        <Flex direction="column" gap="1">
+          <Text size="2" color={position === "left" ? "bronze" : "sky"}>
+            {title}
+          </Text>
+          <Text size="3">{text}</Text>
+          <Text>{date.toString()}</Text>
+        </Flex>
+      </Card>
+    </Flex>
+  );
+};

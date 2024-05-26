@@ -1,13 +1,8 @@
 import { ITextMessage } from "react-chat-elements";
 
-export interface ITextMessageProps
-  extends Omit<
-    ITextMessage,
-    | "type"
-    | "retracted"
-    | "notch"
-    | "removeButton"
-    | "replyButton"
-    | "forwarded"
-    | "focus"
-  > {}
+export interface ITextMessageProps {
+  title: string;
+  text: string;
+  position: "right" | "left";
+  date: Date;
+}

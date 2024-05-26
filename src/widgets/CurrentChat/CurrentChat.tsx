@@ -1,30 +1,34 @@
 import React from "react";
-import { Card, Flex, ScrollArea } from "@radix-ui/themes";
-import { MessageInput } from "@shared/ui";
+import { Card, Flex, ScrollArea, Text } from "@radix-ui/themes";
+import { MessageInput, TextMessage } from "@shared/ui";
 
 export const CurrentChat = () => {
   return (
     <Flex style={{ flex: 1 }}>
-      <Flex direction="column" gap="3" height="100%" width="100%">
-        <Card>header</Card>
+      <Flex direction="column" gap="4" height="100%" width="100%">
+        <Card>
+          <Text size="4" color="bronze">
+            #Username#
+          </Text>
+        </Card>
         <ScrollArea
           type="hover"
           scrollbars="vertical"
-          style={{ height: "auto" }}
+          style={{ height: "100%" }}
         >
           <Flex direction="column" gap="3">
-            <div>message</div>
-            <div>message</div>
-            <div>message</div>
-            <div>message</div>
-            <div>message</div>
-            <div>message</div>
-            <div>message</div>
-            <div>message</div>
-            <div>message</div>
-            <div>message</div>
-            <div>message</div>
-            <div>message</div>
+            <TextMessage
+              title="Tony"
+              text="How u doin?"
+              position="right"
+              date={new Date()}
+            />
+            <TextMessage
+              title="Lizzy"
+              text="How u doin?"
+              position="left"
+              date={new Date()}
+            />
           </Flex>
         </ScrollArea>
         <MessageInput />

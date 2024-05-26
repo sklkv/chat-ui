@@ -11,7 +11,6 @@ import { IChatProps } from "./types";
 // import { userStateService } from "@entities/user";
 // import { MOCK_MESSAGES } from "./mock";
 
-// TODO: выпилить vkui
 export const Chat: FC<IChatProps> = () => {
   const navigate = useNavigate();
   const {
