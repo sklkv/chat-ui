@@ -1,5 +1,5 @@
 export enum APP_ROUTES {
-  CHAT = "/",
+  CHAT = "/chat",
   SIGNIN = "/signin",
   SIGNUP = "/signup",
   BASENAME = "/",

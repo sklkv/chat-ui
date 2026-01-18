@@ -1,8 +1,13 @@
 import path from "path";
 import { Configuration } from "webpack";
+import type { Configuration as DevServerConfiguration } from "webpack-dev-server";
 import CopyWebpackPlugin from "copy-webpack-plugin";
 
-const config: Configuration = {
+interface WebpackConfig extends Configuration {
+  devServer?: DevServerConfiguration;
+}
+
+const config: WebpackConfig = {
   mode:
     (process.env.NODE_ENV as "production" | "development" | undefined) ??
     "development",
@@ -40,6 +45,14 @@ const config: Configuration = {
       patterns: [{ from: "public" }],
     }),
   ],
+  devServer: {
+    static: {
+      directory: path.join(__dirname, "dist"),
+    },
+    compress: true,
+    port: 8080,
+    historyApiFallback: true,
+  },
 };
 
 export default config;

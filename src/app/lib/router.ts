@@ -12,7 +12,7 @@ export const router = createBrowserRouter(
       Component: Layout,
       children: [
         {
-          path: APP_ROUTES.BASENAME,
+          path: APP_ROUTES.CHAT,
           Component: Chat,
         },
         {
@@ -22,7 +22,6 @@ export const router = createBrowserRouter(
         {
           path: APP_ROUTES.SIGNUP,
           Component: Signup,
-          index: true,
         },
       ],
     },
