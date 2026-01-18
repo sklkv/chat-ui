@@ -1,13 +1,12 @@
-import React from "react";
 import { RouterProvider } from "react-router-dom";
 import { ThemeProvider } from "@shared/ui";
-import { routes } from "./routes";
+import { router } from "../lib";
 
 // StrictMode выключен тк двойной рендер влияет на подключение вебсокета
-export default function App() {
+export const App = () => {
   return (
     <ThemeProvider>
-      <RouterProvider router={routes} />
+      <RouterProvider router={router} />
     </ThemeProvider>
   );
-}
+};

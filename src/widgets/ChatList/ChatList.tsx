@@ -1,23 +1,34 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { Card, Flex, ScrollArea } from "@radix-ui/themes";
+import { ChatSearch } from "@features/chatSearch";
+import { useChatStore } from "@entities/chat";
 import { useWsContext } from "@shared/lib";
-import { Input, ChatItem } from "@shared/ui";
+import { ChatItem } from "@shared/ui";
 
 export const ChatList: FC = () => {
   const {} = useWsContext();
+  const { getFilteredChats } = useChatStore();
+  const chats = getFilteredChats();
+
   return (
     <Card size="3">
       <Flex direction="column" gap="3" height="100%">
-        <Input placeholder="Поиск" />
+        <ChatSearch placeholder="Поиск" />
         <ScrollArea
           type="hover"
           scrollbars="vertical"
           style={{ height: "auto" }}
         >
           <Flex direction="column" gap="3">
-            <ChatItem username="Tony" preview="Hello how u doin?" />
-            <ChatItem username="Lizzy" preview="Hello how u doin?" isTyping />
-            <ChatItem username="Uno" preview="Hello how u doin?" />
+            {chats.map((chat) => (
+              <ChatItem
+                key={chat.id}
+                username={chat.username}
+                preview={chat.preview}
+                isTyping={chat.isTyping}
+                selected={chat.selected}
+              />
+            ))}
           </Flex>
         </ScrollArea>
       </Flex>

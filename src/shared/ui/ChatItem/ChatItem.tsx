@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { Flex, Avatar, Text } from "@radix-ui/themes";
 import classNames from "classnames";
 import { IChatItemProps } from "./types";

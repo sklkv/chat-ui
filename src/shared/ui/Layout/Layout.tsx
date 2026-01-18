@@ -1,4 +1,3 @@
-import React from "react";
 import { useNavigate, Outlet } from "react-router-dom";
 import { Flex } from "@radix-ui/themes";
 import { WsProvider, ErrorBoundary } from "@shared/ui";

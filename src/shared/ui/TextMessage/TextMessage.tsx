@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { Card, Flex, Text } from "@radix-ui/themes";
 import { ITextMessageProps } from "./types";
 

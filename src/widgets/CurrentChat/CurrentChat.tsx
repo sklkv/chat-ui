@@ -1,7 +1,7 @@
-import React from "react";
 import { Card, Flex, ScrollArea, Text } from "@radix-ui/themes";
 import { MessageInput, TextMessage } from "@shared/ui";
 
+// TODO: make features
 export const CurrentChat = () => {
   return (
     <Flex style={{ flex: 1 }}>

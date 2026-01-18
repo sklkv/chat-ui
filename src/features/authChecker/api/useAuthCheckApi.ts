@@ -12,29 +12,29 @@ export const useAuthCheckApi = () => {
   const { setError } = useErrorBoundaryContext();
 
   useEffect(() => {
-    // const accessToken = getLocalStorageItem("access_token");
-    // if (!accessToken) {
-    //   navigate(APP_ROUTES.SIGNIN);
-    // }
-    // if (!user && accessToken) {
-    //   const handleCheckProfile = async () => {
-    //     try {
-    //       setIsLoading(true);
-    //       const { response, status } = await api.profile();
-    //       if (status === RESPONSE_STATUS.FAILED) {
-    //         // TODO: handle
-    //         setIsLoading(false);
-    //         return;
-    //       }
-    //       userStateService.setState(response);
-    //       setIsLoading(false);
-    //     } catch (e) {
-    //       setError(e as Error);
-    //       console.warn(e);
-    //     }
-    //   };
-    //   handleCheckProfile();
-    // }
+    const accessToken = getLocalStorageItem("access_token");
+    if (!accessToken) {
+      navigate(APP_ROUTES.SIGNIN);
+    }
+    if (!user && accessToken) {
+      const handleCheckProfile = async () => {
+        try {
+          setIsLoading(true);
+          const { response, status } = await api.profile();
+          if (status === RESPONSE_STATUS.FAILED) {
+            // TODO: handle
+            setIsLoading(false);
+            return;
+          }
+          userStateService.setState(response);
+          setIsLoading(false);
+        } catch (e) {
+          setError(e as Error);
+          console.warn(e);
+        }
+      };
+      handleCheckProfile();
+    }
   }, []);
 
   return { isLoading } as const;

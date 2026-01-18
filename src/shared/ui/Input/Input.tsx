@@ -1,4 +1,4 @@
-import React, { FC, forwardRef } from "react";
+import { forwardRef } from "react";
 import { TextField } from "@radix-ui/themes";
 
 import { IInputProps } from "./types";

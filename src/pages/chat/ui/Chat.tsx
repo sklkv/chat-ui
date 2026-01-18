@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect, ChangeEvent } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { Flex } from "@radix-ui/themes";
 import { ChatList } from "@widgets/ChatList";
@@ -11,14 +11,13 @@ import { IChatProps } from "./types";
 // import { userStateService } from "@entities/user";
 // import { MOCK_MESSAGES } from "./mock";
 
-export const Chat: FC<IChatProps> = () => {
+export const Chat = () => {
   const navigate = useNavigate();
   const {
     isWsReady,
     handleConnectWs,
     handleDisconnectWs,
     handleSendMessage,
-    handleRecieveMessages,
   } = useWsContext();
   const [messages, setMessages] = useState<IMessage[]>([]);
   const [message, setMessage] = useState<string>("");
@@ -40,11 +39,11 @@ export const Chat: FC<IChatProps> = () => {
 
   useEffect(() => {
     // navigate(APP_ROUTES.SIGNIN);
-    handleConnectWs();
+    // handleConnectWs();
     // handleRecieveMessages(handleUpdateMessages);
-    return () => {
-      handleDisconnectWs();
-    };
+    // return () => {
+    //   handleDisconnectWs();
+    // };
   }, []);
 
   return (

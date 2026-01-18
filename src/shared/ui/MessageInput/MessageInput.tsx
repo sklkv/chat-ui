@@ -1,9 +1,7 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { Flex, TextArea, IconButton } from "@radix-ui/themes";
 import { PaperPlaneIcon } from "@radix-ui/react-icons";
 import { IMessageInputProps } from "./types";
-
-import styles from "./MessageInput.modules.css";
 
 export const MessageInput: FC<IMessageInputProps> = ({
   width = "100%",
@@ -21,11 +19,13 @@ export const MessageInput: FC<IMessageInputProps> = ({
   return (
     <Flex direction="row" justify="between" width={width} gap="2">
       <TextArea
-        className={styles["message-input-textarea"]}
         onChange={handleChange}
         value={value}
         size={size}
         disabled={disabled}
+        style={{
+          flex: 1,
+        }}
         {...props}
       />
       <IconButton size={size} disabled={disabled} onClick={onSend}>

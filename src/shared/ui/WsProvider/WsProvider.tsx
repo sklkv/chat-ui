@@ -1,4 +1,4 @@
-import React, { FC, useState, useRef, PropsWithChildren } from "react";
+import { FC, useState, useRef, PropsWithChildren } from "react";
 import { websocket } from "@shared/api";
 import { WsContext } from "@shared/lib";
 import { Socket } from "socket.io-client";

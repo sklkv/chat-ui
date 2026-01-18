@@ -1,4 +1,4 @@
-import React, { FC, PropsWithChildren } from "react";
+import { FC, PropsWithChildren } from "react";
 import { Theme, ThemeProps } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css";
 
