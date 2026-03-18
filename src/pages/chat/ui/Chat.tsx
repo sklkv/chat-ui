@@ -1,49 +1,37 @@
-import { useState, useEffect, ChangeEvent } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 import { Flex } from "@radix-ui/themes";
 import { ChatList } from "@widgets/ChatList";
 import { CurrentChat } from "@widgets/CurrentChat";
 import { useWsContext } from "@shared/lib";
 import { IMessage } from "@shared/model";
-// import { TextMessage, MessageInput } from "@shared/ui";
-import { IChatProps } from "./types";
-
-// import { userStateService } from "@entities/user";
-// import { MOCK_MESSAGES } from "./mock";
+import { useMessageStore } from "@entities/message";
+import { useChatStore } from "@entities/chat";
 
 export const Chat = () => {
-  const navigate = useNavigate();
-  const {
-    isWsReady,
-    handleConnectWs,
-    handleDisconnectWs,
-    handleSendMessage,
-  } = useWsContext();
-  const [messages, setMessages] = useState<IMessage[]>([]);
-  const [message, setMessage] = useState<string>("");
-  const onMessageChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setMessage(e.target.value);
-  };
+  const { handleConnectWs, handleDisconnectWs, handleRecieveMessages } =
+    useWsContext();
+  const { addMessage } = useMessageStore();
 
-  const handleUpdateMessages = (message: IMessage) => {
-    setMessages((prevState) => [...prevState, message]);
-  };
-
-  const sendMessage = () => {
-    handleSendMessage({
-      from: "nickname",
-      message,
+  const handleUpdateMessages = (wsMessage: IMessage) => {
+    const selectedChat = useChatStore
+      .getState()
+      .chats.find((c) => c.selected);
+    if (!selectedChat) return;
+    addMessage({
+      id: crypto.randomUUID(),
+      chatId: selectedChat.id,
+      senderId: wsMessage.from,
+      text: wsMessage.message,
+      createdAt: new Date().toISOString(),
     });
-    setMessage("");
   };
 
   useEffect(() => {
-    // navigate(APP_ROUTES.SIGNIN);
-    // handleConnectWs();
-    // handleRecieveMessages(handleUpdateMessages);
-    // return () => {
-    //   handleDisconnectWs();
-    // };
+    handleConnectWs();
+    handleRecieveMessages(handleUpdateMessages);
+    return () => {
+      handleDisconnectWs();
+    };
   }, []);
 
   return (
