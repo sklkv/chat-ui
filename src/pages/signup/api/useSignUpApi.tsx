@@ -12,18 +12,26 @@ export const useSignUpApi = () => {
     data,
     successCallback,
   }: IHandleSignUpProps) => {
-    setErrorMessage("");
-    setIsLoading(true);
-    const { status, response } = await api.signup(data);
+    try {
+      setErrorMessage("");
+      setIsLoading(true);
+      const { status, response } = await api.signup(data);
 
-    if (status === RESPONSE_STATUS.FAILED) {
-      setErrorMessage(response.message);
+      if (status === RESPONSE_STATUS.FAILED) {
+        setErrorMessage(response.message);
+        setIsLoading(false);
+        return;
+      }
+      setLocalStorageItem({
+        key: "access_token",
+        value: response.access_token,
+      });
       setIsLoading(false);
-      return;
+      successCallback?.();
+    } catch (error) {
+      console.error(error);
     }
-    setLocalStorageItem({ key: "access_token", value: response.access_token });
-    setIsLoading(false);
-    successCallback?.();
   };
+
   return { isLoading, errorMessage, handleSignUp } as const;
 };

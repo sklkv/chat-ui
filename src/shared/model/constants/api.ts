@@ -1,7 +1,7 @@
 import { IUser } from "../types";
 
 export enum API_BASE_URL {
-  DEV = "http://localhost:5000",
+  DEV = "http://localhost:4000",
 }
 
 export enum API_ROUTES {

@@ -13,19 +13,27 @@ export const useSignInApi = () => {
     data,
     successCallback,
   }: IHandleSignInProps) => {
-    setErrorMessage("");
-    setIsLoading(true);
-    const { status, response } = await api.signin(data);
+    try {
+      setErrorMessage("");
+      setIsLoading(true);
+      const { status, response } = await api.signin(data);
 
-    if (status === RESPONSE_STATUS.FAILED) {
-      setErrorMessage(response.message);
+      if (status === RESPONSE_STATUS.FAILED) {
+        setErrorMessage(response.message);
+        setIsLoading(false);
+        return;
+      }
+      setLocalStorageItem({
+        key: "access_token",
+        value: response.access_token,
+      });
+      userStateService.setState(response);
       setIsLoading(false);
-      return;
+      successCallback?.();
+    } catch (error) {
+      console.error(error);
     }
-    setLocalStorageItem({ key: "access_token", value: response.access_token });
-    userStateService.setState(response);
-    setIsLoading(false);
-    successCallback?.();
   };
+
   return { isLoading, errorMessage, handleSignIn } as const;
 };

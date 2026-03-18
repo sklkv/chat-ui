@@ -25,6 +25,7 @@ export const Signup = () => {
   const handleSetSuccess = () => setHasSuccess(true);
 
   const onSubmit: SubmitHandler<IFormFields> = async (data) => {
+    console.log(data);
     await handleSignUp({ data, successCallback: handleSetSuccess });
   };
 
