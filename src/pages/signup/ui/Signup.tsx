@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FormProvider, useForm, SubmitHandler } from "react-hook-form";
-import { Flex, Text, Link, Card } from "@radix-ui/themes";
+import { Flex, Text, Link, Card, Box } from "@radix-ui/themes";
 import { FormField, Button } from "@shared/ui";
 import { APP_ROUTES } from "@shared/model";
 import { useSignUpApi } from "../api";
@@ -31,7 +31,8 @@ export const Signup = () => {
 
   // TODO: refactor inline styles, add loader
   return (
-    <Card style={{ minWidth: "540px" }} size="5" variant="ghost">
+    <Box minWidth="540px">
+    <Card size="5" variant="ghost">
       <Text as="div" size="5" mb="1" weight="medium" align="center">
         Регистрация
       </Text>
@@ -85,5 +86,6 @@ export const Signup = () => {
         </FormProvider>
       )}
     </Card>
+    </Box>
   );
 };

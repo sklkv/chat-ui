@@ -2,7 +2,7 @@ import { FC, useState, useRef, PropsWithChildren } from "react";
 import { websocket } from "@shared/api";
 import { WsContext } from "@shared/lib";
 import { Socket } from "socket.io-client";
-import { IMessage } from "@shared/model";
+import { IWsMessage, WS_EVENTS } from "@shared/model";
 
 export const WsProvider: FC<PropsWithChildren> = ({ children }) => {
   const [isWsReady, setIsWsReady] = useState<boolean>(false);
@@ -21,15 +21,36 @@ export const WsProvider: FC<PropsWithChildren> = ({ children }) => {
     setIsWsReady(false);
   };
 
-  const handleSendMessage = ({ from, message }: IMessage) => {
+  const handleSendMessage = ({ from, message }: IWsMessage) => {
     ws.emit("user-dispatch-message", {
       from,
       message,
     });
   };
 
-  const handleRecieveMessages = (callback: (message: IMessage) => void) => {
+  const handleRecieveMessages = (callback: (message: IWsMessage) => void) => {
     ws.on("server-dispatch-message", callback);
+    return () => ws.off("server-dispatch-message", callback);
+  };
+
+  const handleEmitTyping = (chatId: string) => {
+    ws.emit(WS_EVENTS.TYPING, { chatId });
+  };
+
+  const handleEmitStopTyping = (chatId: string) => {
+    ws.emit(WS_EVENTS.STOP_TYPING, { chatId });
+  };
+
+  const handleReceiveTyping = (callback: (chatId: string) => void) => {
+    const handler = ({ chatId }: { chatId: string }) => callback(chatId);
+    ws.on(WS_EVENTS.TYPING, handler);
+    return () => ws.off(WS_EVENTS.TYPING, handler);
+  };
+
+  const handleReceiveStopTyping = (callback: (chatId: string) => void) => {
+    const handler = ({ chatId }: { chatId: string }) => callback(chatId);
+    ws.on(WS_EVENTS.STOP_TYPING, handler);
+    return () => ws.off(WS_EVENTS.STOP_TYPING, handler);
   };
 
   return (
@@ -41,6 +62,10 @@ export const WsProvider: FC<PropsWithChildren> = ({ children }) => {
         handleDisconnectWs,
         handleSendMessage,
         handleRecieveMessages,
+        handleEmitTyping,
+        handleEmitStopTyping,
+        handleReceiveTyping,
+        handleReceiveStopTyping,
       }}
     >
       {children}

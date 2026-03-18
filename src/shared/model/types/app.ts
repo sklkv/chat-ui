@@ -1,4 +1,4 @@
-export interface IMessage {
+export interface IWsMessage {
   from: string;
   message: string;
 }

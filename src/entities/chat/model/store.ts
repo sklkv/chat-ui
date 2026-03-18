@@ -13,6 +13,7 @@ interface ChatState {
   searchQuery: string;
   setSearchQuery: (query: string) => void;
   selectChat: (id: string) => void;
+  setTyping: (chatId: string, isTyping: boolean) => void;
   getFilteredChats: () => IChat[];
 }
 
@@ -40,6 +41,13 @@ export const useChatStore = create<ChatState>((set, get) => ({
         ...chat,
         selected: chat.id === id,
       })),
+    })),
+
+  setTyping: (chatId, isTyping) =>
+    set((state) => ({
+      chats: state.chats.map((chat) =>
+        chat.id === chatId ? { ...chat, isTyping } : chat
+      ),
     })),
 
   getFilteredChats: () => {

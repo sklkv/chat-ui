@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { FormProvider, useForm, SubmitHandler } from "react-hook-form";
-import { Flex, Text, Link, Card } from "@radix-ui/themes";
+import { Flex, Text, Link, Card, Box } from "@radix-ui/themes";
 import { FormField, Button } from "@shared/ui";
 import { useSignInApi } from "../api";
 import { FORM_SCHEME } from "./scheme";
@@ -28,9 +28,9 @@ export const Signin = () => {
     await handleSignIn({ data, successCallback: handleNavigateToChat });
   };
 
-  // TODO: refactor inline styles, add loader
   return (
-    <Card style={{ minWidth: "540px" }} size="5" variant="ghost">
+    <Box minWidth="540px">
+    <Card size="5" variant="ghost">
       <Text as="div" size="5" mb="1" weight="medium" align="center">
         Вход
       </Text>
@@ -78,5 +78,6 @@ export const Signin = () => {
         </form>
       </FormProvider>
     </Card>
+    </Box>
   );
 };

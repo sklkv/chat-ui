@@ -18,9 +18,8 @@ export class FetchService {
           return response.json();
         } else {
           if (response.status === 401) {
-            // TODO: рефреш токена
-          } else {
-            throw new Error(String(response.status));
+            localStorage.removeItem("access_token");
+            window.location.href = "/signin";
           }
           throw new Error(String(response.status));
         }
