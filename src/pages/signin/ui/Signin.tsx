@@ -65,6 +65,7 @@ export const Signin = () => {
               ) : null}
               <Button
                 disabled={!!Object.keys(errors).length}
+                loading={isLoading}
                 onClick={handleSubmit(onSubmit)}
               >
                 Войти
@@ -76,7 +77,6 @@ export const Signin = () => {
           </Flex>
         </form>
       </FormProvider>
-      {/* {isLoading ? <ScreenSpinner /> : null} */}
     </Card>
   );
 };

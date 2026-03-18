@@ -1,1 +1,2 @@
-export * from "./AuthChecker";
+export * from "./AuthGuard";
+export * from "./ProtectedRoute";

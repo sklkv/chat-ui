@@ -71,6 +71,7 @@ export const Signup = () => {
                 ) : null}
                 <Button
                   disabled={!!Object.keys(errors).length}
+                  loading={isLoading}
                   onClick={handleSubmit(onSubmit)}
                 >
                   Зарегистрироваться
@@ -83,7 +84,6 @@ export const Signup = () => {
           </form>
         </FormProvider>
       )}
-      {/* {isLoading ? <ScreenSpinner /> : null} */}
     </Card>
   );
 };

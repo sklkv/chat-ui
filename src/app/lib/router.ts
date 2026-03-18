@@ -1,9 +1,9 @@
 import { createBrowserRouter } from "react-router-dom";
 import { Layout } from "@shared/ui";
 import { Chat } from "@pages/chat";
-import { Login } from "@pages/login";
 import { Signin } from "@pages/signin";
 import { Signup } from "@pages/signup";
+import { ProtectedRoute } from "@features/authChecker";
 import { APP_ROUTES } from "@shared/model";
 
 export const router = createBrowserRouter(
@@ -13,12 +13,13 @@ export const router = createBrowserRouter(
       Component: Layout,
       children: [
         {
-          path: APP_ROUTES.LOGIN,
-          Component: Login,
-        },
-        {
-          path: APP_ROUTES.CHAT,
-          Component: Chat,
+          Component: ProtectedRoute,
+          children: [
+            {
+              path: APP_ROUTES.CHAT,
+              Component: Chat,
+            },
+          ],
         },
         {
           path: APP_ROUTES.SIGNIN,
