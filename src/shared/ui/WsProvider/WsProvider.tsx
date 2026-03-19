@@ -22,35 +22,35 @@ export const WsProvider: FC<PropsWithChildren> = ({ children }) => {
   };
 
   const handleSendMessage = ({ from, message }: IWsMessage) => {
-    ws.emit("user-dispatch-message", {
+    ws.emit(WS_EVENTS.SEND_MESSAGE, {
       from,
       message,
     });
   };
 
   const handleRecieveMessages = (callback: (message: IWsMessage) => void) => {
-    ws.on("server-dispatch-message", callback);
-    return () => ws.off("server-dispatch-message", callback);
+    ws.on(WS_EVENTS.RECEIVE_MESSAGE, callback);
+    return () => ws.off(WS_EVENTS.RECEIVE_MESSAGE, callback);
   };
 
   const handleEmitTyping = (chatId: string) => {
-    ws.emit(WS_EVENTS.TYPING, { chatId });
+    ws.emit(WS_EVENTS.TYPING, { chat_id: chatId });
   };
 
   const handleEmitStopTyping = (chatId: string) => {
-    ws.emit(WS_EVENTS.STOP_TYPING, { chatId });
+    ws.emit(WS_EVENTS.STOP_TYPING, { chat_id: chatId });
   };
 
   const handleReceiveTyping = (callback: (chatId: string) => void) => {
-    const handler = ({ chatId }: { chatId: string }) => callback(chatId);
-    ws.on(WS_EVENTS.TYPING, handler);
-    return () => ws.off(WS_EVENTS.TYPING, handler);
+    const handler = ({ chat_id }: { chat_id: string }) => callback(chat_id);
+    ws.on(WS_EVENTS.SERVER_TYPING, handler);
+    return () => ws.off(WS_EVENTS.SERVER_TYPING, handler);
   };
 
   const handleReceiveStopTyping = (callback: (chatId: string) => void) => {
-    const handler = ({ chatId }: { chatId: string }) => callback(chatId);
-    ws.on(WS_EVENTS.STOP_TYPING, handler);
-    return () => ws.off(WS_EVENTS.STOP_TYPING, handler);
+    const handler = ({ chat_id }: { chat_id: string }) => callback(chat_id);
+    ws.on(WS_EVENTS.SERVER_STOP_TYPING, handler);
+    return () => ws.off(WS_EVENTS.SERVER_STOP_TYPING, handler);
   };
 
   return (

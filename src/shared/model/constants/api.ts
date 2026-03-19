@@ -36,10 +36,14 @@ export interface ISignInResponse extends IProfileResponse {
 export interface ISignUpResponse extends ISignInResponse {}
 
 export enum WS_EVENTS {
-  SEND_MESSAGE = "send_message",
-  RECEIVE_MESSAGE = "receive_message",
-  JOIN_CHAT = "join_chat",
-  LEAVE_CHAT = "leave_chat",
-  TYPING = "typing",
-  STOP_TYPING = "stop_typing",
+  // Client → Server
+  SEND_MESSAGE = "user-dispatch-message",
+  JOIN_CHAT = "join-chat",
+  LEAVE_CHAT = "leave-chat",
+  TYPING = "user-typing",
+  STOP_TYPING = "user-stop-typing",
+  // Server → Client
+  RECEIVE_MESSAGE = "server-dispatch-message",
+  SERVER_TYPING = "server-user-typing",
+  SERVER_STOP_TYPING = "server-user-stop-typing",
 }
