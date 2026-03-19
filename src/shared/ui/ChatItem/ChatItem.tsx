@@ -9,6 +9,7 @@ export const ChatItem: FC<IChatItemProps> = ({
   preview,
   selected,
   isTyping,
+  onClick,
 }) => {
   return (
     <Flex
@@ -17,6 +18,7 @@ export const ChatItem: FC<IChatItemProps> = ({
       className={classNames(styles["chat-item-wrapper"], {
         [styles["chat-item-wrapper--selected"]]: selected,
       })}
+      onClick={onClick}
     >
       <Avatar size="4" fallback={username.substring(0, 1).toUpperCase()} />
       <Flex direction="column">

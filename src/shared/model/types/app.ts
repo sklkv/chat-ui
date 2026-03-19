@@ -1,6 +1,16 @@
 export interface IWsMessage {
-  from: string;
-  message: string;
+  chat_id: string;
+  user_id: number;
+  type: string;
+  text: string;
+}
+
+export interface IWsReceivedMessage {
+  id: string;
+  chat_id: string;
+  user_id: number;
+  type: string;
+  text: string;
 }
 
 export interface ISignInDto {

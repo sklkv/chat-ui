@@ -1,6 +1,6 @@
 import { createContext, useContext } from "react";
 import { Socket } from "socket.io-client";
-import { IWsMessage } from "@shared/model";
+import { IWsMessage, IWsReceivedMessage } from "@shared/model";
 
 /* eslint-disable */
 export const WsContext = createContext<{
@@ -9,11 +9,13 @@ export const WsContext = createContext<{
   handleConnectWs: VoidFunction;
   handleDisconnectWs: VoidFunction;
   handleSendMessage: (data: IWsMessage) => void;
-  handleRecieveMessages: (callback: (message: IWsMessage) => void) => VoidFunction;
+  handleRecieveMessages: (callback: (message: IWsReceivedMessage) => void) => VoidFunction;
   handleEmitTyping: (chatId: string) => void;
   handleEmitStopTyping: (chatId: string) => void;
   handleReceiveTyping: (callback: (chatId: string) => void) => VoidFunction;
   handleReceiveStopTyping: (callback: (chatId: string) => void) => VoidFunction;
+  handleJoinChat: (chatId: string) => void;
+  handleLeaveChat: (chatId: string) => void;
 }>({
   isWsReady: false,
   ws: undefined,
@@ -25,6 +27,8 @@ export const WsContext = createContext<{
   handleEmitStopTyping: () => {},
   handleReceiveTyping: () => () => {},
   handleReceiveStopTyping: () => () => {},
+  handleJoinChat: () => {},
+  handleLeaveChat: () => {},
 });
 
 export const useWsContext = () => useContext(WsContext);

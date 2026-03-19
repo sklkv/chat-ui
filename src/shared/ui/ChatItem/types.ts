@@ -3,4 +3,5 @@ export interface IChatItemProps {
   preview: string;
   selected?: boolean;
   isTyping?: boolean;
+  onClick?: VoidFunction;
 }

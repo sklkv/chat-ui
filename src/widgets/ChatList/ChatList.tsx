@@ -6,9 +6,18 @@ import { useWsContext } from "@shared/lib";
 import { ChatItem } from "@shared/ui";
 
 export const ChatList: FC = () => {
-  const {} = useWsContext();
-  const { getFilteredChats } = useChatStore();
+  const { handleJoinChat, handleLeaveChat } = useWsContext();
+  const { getFilteredChats, selectChat } = useChatStore();
   const chats = getFilteredChats();
+
+  const handleChatClick = (chatId: string) => {
+    const previousSelected = useChatStore.getState().chats.find((c) => c.selected);
+    if (previousSelected) {
+      handleLeaveChat(previousSelected.id);
+    }
+    selectChat(chatId);
+    handleJoinChat(chatId);
+  };
 
   return (
     <Card size="3">
@@ -27,6 +36,7 @@ export const ChatList: FC = () => {
                 preview={chat.preview}
                 isTyping={chat.isTyping}
                 selected={chat.selected}
+                onClick={() => handleChatClick(chat.id)}
               />
             ))}
           </Flex>

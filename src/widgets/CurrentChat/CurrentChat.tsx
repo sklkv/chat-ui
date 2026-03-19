@@ -19,9 +19,9 @@ export const CurrentChat = () => {
   const messages = useMessageStore((state) =>
     selectedChat ? (state.messages[selectedChat.id] ?? []) : []
   );
-  const { addMessage } = useMessageStore();
 
-  const currentUsername = userStateService.getState()?.username;
+  const currentUser = userStateService.getState();
+  const currentUsername = currentUser?.username;
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -44,14 +44,11 @@ export const CurrentChat = () => {
 
   const handleSend = () => {
     if (!text.trim() || !selectedChat) return;
-    const from = currentUsername ?? "me";
-    handleSendMessage({ from, message: text });
-    addMessage({
-      id: crypto.randomUUID(),
-      chatId: selectedChat.id,
-      senderId: from,
+    handleSendMessage({
+      chat_id: selectedChat.id,
+      user_id: Number(currentUser?.id),
+      type: "text",
       text,
-      createdAt: new Date().toISOString(),
     });
     if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
     handleEmitStopTyping(selectedChat.id);

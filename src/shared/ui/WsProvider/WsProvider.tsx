@@ -2,7 +2,7 @@ import { FC, useState, useRef, PropsWithChildren } from "react";
 import { websocket } from "@shared/api";
 import { WsContext } from "@shared/lib";
 import { Socket } from "socket.io-client";
-import { IWsMessage, WS_EVENTS } from "@shared/model";
+import { IWsMessage, IWsReceivedMessage, WS_EVENTS } from "@shared/model";
 
 export const WsProvider: FC<PropsWithChildren> = ({ children }) => {
   const [isWsReady, setIsWsReady] = useState<boolean>(false);
@@ -21,16 +21,21 @@ export const WsProvider: FC<PropsWithChildren> = ({ children }) => {
     setIsWsReady(false);
   };
 
-  const handleSendMessage = ({ from, message }: IWsMessage) => {
-    ws.emit(WS_EVENTS.SEND_MESSAGE, {
-      from,
-      message,
-    });
+  const handleSendMessage = (data: IWsMessage) => {
+    ws.emit(WS_EVENTS.SEND_MESSAGE, data);
   };
 
-  const handleRecieveMessages = (callback: (message: IWsMessage) => void) => {
+  const handleRecieveMessages = (callback: (message: IWsReceivedMessage) => void) => {
     ws.on(WS_EVENTS.RECEIVE_MESSAGE, callback);
     return () => ws.off(WS_EVENTS.RECEIVE_MESSAGE, callback);
+  };
+
+  const handleJoinChat = (chatId: string) => {
+    ws.emit(WS_EVENTS.JOIN_CHAT, { chat_id: chatId });
+  };
+
+  const handleLeaveChat = (chatId: string) => {
+    ws.emit(WS_EVENTS.LEAVE_CHAT, { chat_id: chatId });
   };
 
   const handleEmitTyping = (chatId: string) => {
@@ -66,6 +71,8 @@ export const WsProvider: FC<PropsWithChildren> = ({ children }) => {
         handleEmitStopTyping,
         handleReceiveTyping,
         handleReceiveStopTyping,
+        handleJoinChat,
+        handleLeaveChat,
       }}
     >
       {children}

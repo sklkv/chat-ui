@@ -3,7 +3,7 @@ import { Flex } from "@radix-ui/themes";
 import { ChatList } from "@widgets/ChatList";
 import { CurrentChat } from "@widgets/CurrentChat";
 import { useWsContext } from "@shared/lib";
-import { IWsMessage } from "@shared/model";
+import { IWsReceivedMessage } from "@shared/model";
 import { useMessageStore } from "@entities/message";
 import { useChatStore } from "@entities/chat";
 
@@ -19,16 +19,12 @@ export const Chat = () => {
   const { setTyping } = useChatStore();
 
   const handleUpdateMessages = useCallback(
-    (wsMessage: IWsMessage) => {
-      const selectedChat = useChatStore
-        .getState()
-        .chats.find((c) => c.selected);
-      if (!selectedChat) return;
+    (wsMessage: IWsReceivedMessage) => {
       addMessage({
-        id: crypto.randomUUID(),
-        chatId: selectedChat.id,
-        senderId: wsMessage.from,
-        text: wsMessage.message,
+        id: wsMessage.id,
+        chatId: wsMessage.chat_id,
+        senderId: String(wsMessage.user_id),
+        text: wsMessage.text,
         createdAt: new Date().toISOString(),
       });
     },
