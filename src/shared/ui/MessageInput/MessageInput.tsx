@@ -16,10 +16,18 @@ export const MessageInput: FC<IMessageInputProps> = ({
     onChange?.(e.target.value);
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      onSend?.();
+    }
+  };
+
   return (
     <Flex direction="row" justify="between" width={width} gap="2">
       <TextArea
         onChange={handleChange}
+        onKeyDown={handleKeyDown}
         value={value}
         size={size}
         disabled={disabled}

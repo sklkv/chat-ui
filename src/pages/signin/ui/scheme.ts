@@ -3,7 +3,7 @@ import { IFormScheme } from "./types";
 
 export const FORM_SCHEME: IFormScheme[] = [
   {
-    name: "username",
+    name: "email",
     labelProps: {
       label: "Имя",
     },

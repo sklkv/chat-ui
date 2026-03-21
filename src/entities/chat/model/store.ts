@@ -11,6 +11,8 @@ export interface IChat {
 interface ChatState {
   chats: IChat[];
   searchQuery: string;
+  setChats: (chats: IChat[]) => void;
+  addChat: (chat: IChat) => void;
   setSearchQuery: (query: string) => void;
   selectChat: (id: string) => void;
   setTyping: (chatId: string, isTyping: boolean) => void;
@@ -18,20 +20,17 @@ interface ChatState {
 }
 
 export const useChatStore = create<ChatState>((set, get) => ({
-  chats: [
-    { id: "1", username: "Tony", preview: "Hello how u doin?" },
-    {
-      id: "2",
-      username: "Lizzy",
-      preview: "Hello how u doin?",
-      isTyping: true,
-    },
-    { id: "3", username: "Uno", preview: "Hello how u doin?" },
-    { id: "4", username: "Alex", preview: "Meeting at 3pm" },
-    { id: "5", username: "Sarah", preview: "Did you see the news?" },
-    { id: "6", username: "Mike", preview: "Thanks for your help!" },
-  ],
+  chats: [],
   searchQuery: "",
+
+  setChats: (chats) => set({ chats }),
+
+  addChat: (chat) =>
+    set((state) => ({
+      chats: state.chats.some((c) => c.id === chat.id)
+        ? state.chats
+        : [...state.chats, chat],
+    })),
 
   setSearchQuery: (query) => set({ searchQuery: query }),
 

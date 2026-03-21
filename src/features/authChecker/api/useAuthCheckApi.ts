@@ -6,7 +6,7 @@ import { getLocalStorageItem, useErrorBoundaryContext } from "@shared/lib";
 import { APP_ROUTES, RESPONSE_STATUS } from "@shared/model";
 
 export const useAuthCheckApi = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const navigate = useNavigate();
   const user = userStateService.getState();
   const { setError } = useErrorBoundaryContext();
@@ -15,11 +15,11 @@ export const useAuthCheckApi = () => {
     const accessToken = getLocalStorageItem("access_token");
     if (!accessToken) {
       navigate(APP_ROUTES.SIGNIN);
+      return;
     }
-    if (!user && accessToken) {
+    if (!user) {
       const handleCheckProfile = async () => {
         try {
-          setIsLoading(true);
           const { response, status } = await api.profile();
           if (status === RESPONSE_STATUS.FAILED) {
             // TODO: handle
@@ -27,13 +27,16 @@ export const useAuthCheckApi = () => {
             return;
           }
           userStateService.setState(response);
-          setIsLoading(false);
         } catch (e) {
           setError(e as Error);
           console.warn(e);
+        } finally {
+          setIsLoading(false);
         }
       };
       handleCheckProfile();
+    } else {
+      setIsLoading(false);
     }
   }, []);
 

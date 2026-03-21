@@ -1,6 +1,6 @@
-import { FC, useState, useRef, PropsWithChildren } from "react";
+import { FC, useState, useRef, useEffect, PropsWithChildren } from "react";
 import { websocket } from "@shared/api";
-import { WsContext } from "@shared/lib";
+import { WsContext, getLocalStorageItem } from "@shared/lib";
 import { Socket } from "socket.io-client";
 import { IWsMessage, IWsReceivedMessage, WS_EVENTS } from "@shared/model";
 
@@ -8,17 +8,28 @@ export const WsProvider: FC<PropsWithChildren> = ({ children }) => {
   const [isWsReady, setIsWsReady] = useState<boolean>(false);
   const { current: ws } = useRef<Socket>(websocket);
 
-  const handleConnectWs = () => {
-    ws.connect();
-    ws.on("connect", () => {
+  useEffect(() => {
+    const onConnect = () => {
       setIsWsReady(true);
       ws.emit("new-connection", `user ${ws.id} has been connected`);
-    });
+    };
+    const onDisconnect = () => setIsWsReady(false);
+    ws.on("connect", onConnect);
+    ws.on("disconnect", onDisconnect);
+    return () => {
+      ws.off("connect", onConnect);
+      ws.off("disconnect", onDisconnect);
+    };
+  }, []);
+
+  const handleConnectWs = () => {
+    const token = getLocalStorageItem("access_token");
+    ws.auth = { token };
+    ws.connect();
   };
 
   const handleDisconnectWs = () => {
     ws.disconnect();
-    setIsWsReady(false);
   };
 
   const handleSendMessage = (data: IWsMessage) => {

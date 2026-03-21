@@ -11,6 +11,7 @@ export interface IMessage {
 interface MessageState {
   messages: Record<string, IMessage[]>;
   addMessage: (msg: IMessage) => void;
+  prependMessages: (chatId: string, msgs: IMessage[]) => void;
   setMessages: (chatId: string, msgs: IMessage[]) => void;
   clearMessages: () => void;
 }
@@ -23,6 +24,14 @@ export const useMessageStore = create<MessageState>((set) => ({
       messages: {
         ...state.messages,
         [msg.chatId]: [...(state.messages[msg.chatId] ?? []), msg],
+      },
+    })),
+
+  prependMessages: (chatId, msgs) =>
+    set((state) => ({
+      messages: {
+        ...state.messages,
+        [chatId]: [...msgs, ...(state.messages[chatId] ?? [])],
       },
     })),
 

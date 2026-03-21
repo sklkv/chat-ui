@@ -8,6 +8,32 @@ export enum API_ROUTES {
   SIGNUP = "/auth/signup",
   SIGNIN = "/auth/signin",
   PROFILE = "/auth/profile",
+  CHATS = "/chats/all",
+  USERS = "/users",
+  USERS_SEARCH = "/users/search",
+  CREATE_CHAT = "/chats/create",
+  MESSAGES = "/messages",
+}
+
+export interface IMessageFromApi {
+  id: string;
+  chat_id: string;
+  user_id: number;
+  type: string;
+  text: string;
+  createdAt: string;
+}
+
+export interface IChatFromApi {
+  id: string;
+  participants: number[];
+}
+
+export interface IUserSearchResult {
+  id: number;
+  username: string;
+  email: string;
+  phoneNumber: string;
 }
 
 export enum RESPONSE_STATUS {

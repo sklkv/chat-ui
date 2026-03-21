@@ -2,10 +2,11 @@ import { useCallback, useEffect } from "react";
 import { Flex } from "@radix-ui/themes";
 import { ChatList } from "@widgets/ChatList";
 import { CurrentChat } from "@widgets/CurrentChat";
-import { useWsContext } from "@shared/lib";
-import { IWsReceivedMessage } from "@shared/model";
 import { useMessageStore } from "@entities/message";
-import { useChatStore } from "@entities/chat";
+import { useChatStore, resolveChatsWithUsernames } from "@entities/chat";
+import { api } from "@shared/api";
+import { useWsContext, getLocalStorageItem } from "@shared/lib";
+import { IWsReceivedMessage } from "@shared/model";
 
 export const Chat = () => {
   const {
@@ -16,7 +17,7 @@ export const Chat = () => {
     handleReceiveStopTyping,
   } = useWsContext();
   const { addMessage } = useMessageStore();
-  const { setTyping } = useChatStore();
+  const { setTyping, setChats } = useChatStore();
 
   const handleUpdateMessages = useCallback(
     (wsMessage: IWsReceivedMessage) => {
@@ -32,6 +33,13 @@ export const Chat = () => {
   );
 
   useEffect(() => {
+    const token = getLocalStorageItem("access_token") ?? "";
+    const currentUserId: number = JSON.parse(atob(token.split(".")[1])).sub;
+
+    Promise.all([api.chats(), api.getUsers()]).then(([chats, users]) => {
+      setChats(resolveChatsWithUsernames(chats, users, currentUserId));
+    });
+
     handleConnectWs();
     const offReceive = handleRecieveMessages(handleUpdateMessages);
     const offTyping = handleReceiveTyping((chatId) => setTyping(chatId, true));
